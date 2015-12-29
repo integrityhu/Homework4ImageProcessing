@@ -13,19 +13,17 @@ import javax.swing.JFrame;
 
 public class ShowImageTask {
 
-	public static void run() throws IOException {
-		ImageProcessorUtils imageLoader = new ImageProcessorUtils();
-		Image image = imageLoader.getImageFromResourceAsStream("images/Bumblebee.jpg");
+	public static void run() throws IOException {		
+		final Image image = ImageProcessorUtils.getImageFromResourceAsStream("images/Bumblebee.jpg", ShowImageTask.class);
 		int width = ((BufferedImage)image).getWidth();
 		int height = ((BufferedImage)image).getHeight();
+		//final BufferedImage scaledImage = ImageProcessorUtils.getScaledImage((BufferedImage)image,640,480);
+		final BufferedImage scaledImage = ImageProcessorUtils.getScaledImageWithImgscalr((BufferedImage)image,500,400);
 		JFrame f = new JFrame();
 		f.setLayout(new BorderLayout());
-		IntStream.range(0,100).forEach(i -> {
-			((BufferedImage)image).setRGB(i, 100, 0);
-		});
 		
 	    ImageJPanel panel = new ImageJPanel();
-		panel.setImage(image);
+		panel.setImage(scaledImage);
 
 		JButton b = new JButton("HIDE");
 	    b.addActionListener(new ActionListener(){
@@ -43,5 +41,12 @@ public class ShowImageTask {
 	    f.setVisible(true);
 	    f.setDefaultCloseOperation(f.EXIT_ON_CLOSE);
 
+	}
+	
+	public static BufferedImage drawLine(BufferedImage scaledImage) {
+	       IntStream.range(0,100).forEach(i -> {
+	            (scaledImage).setRGB(i, 100, 0);
+	        });
+	       return scaledImage;
 	}
 }
